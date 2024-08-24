@@ -21,13 +21,10 @@ Vz = z.diff(t)
 # w = 5
 # b = 9.3
 # t = 1.8
-Vx = float(Vx.subs([(a, 5), (omega, 5), (t, 1.8)]))
-Vy = float(Vy.subs([(a, 5), (omega, 5), (t, 1.8)]))
-Vz = float(Vz.subs([(b, 9.3), (t, 1.8)]))
+Vx.subs([(a, 5), (omega, 5), (t, 1.8)])
+Vy.subs([(a, 5), (omega, 5), (t, 1.8)])
+Vz.subs([(b, 9.3), (t, 1.8)])
 
 V = np.array([Vx, Vy, Vz])
 
-V_norm = np.linalg.norm(V)
-
-print(V_norm)
-
+print(np.linalg.norm(V))
