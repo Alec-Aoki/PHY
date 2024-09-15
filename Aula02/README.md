@@ -6,7 +6,7 @@ $y(t) = a\sin(\omega t)$
 
 $z(t) = bt^2$
 
-Como $ \vec v(t)\ = ( \vec v_x(t)\ , \vec v_y(t)\ , \vec v_z(t)\ ) = ( \dot {x} (t) \ , \dot {y} (t) \, \dot {z} (t) \ ) $ e:
+Como $\vec v(t)\ = ( \vec v_x(t)\ , \vec v_y(t)\ , \vec v_z(t)\ ) = ( \dot {x} (t) \ , \dot {y} (t) \, \dot {z} (t) \ )$ e:
 
 $ \dot {x} (t) \ = -a \omega \sin(\omega t) $
 
@@ -14,11 +14,11 @@ $ \dot {y} (t) \ = a \omega \cos(\omega t) $
 
 $ \dot {z} (t) \ = 2 b t $
 
-Temos $ \vec v(t)\ = ( -a \omega sin(\omega t), a \omega cos(\omega t), 2 b t )$.
+Temos $\vec v(t)\ = ( -a \omega sin(\omega t), a \omega cos(\omega t), 2 b t )$.
 
 Sendo $a = 5$, $\omega = 5$, $b = 9,3$ e $t = 1,8$:
 
-$ \left\| \vec v(t) \right\| = \sqrt{ a^2 \omega^2 \sin^2( \omega t ) + a^2 \omega^2 \cos^2( \omega t ) + 4 b^2 t^2 } $
+$\left\| \vec v(t) \right\| = \sqrt{ a^2 \omega^2 \sin^2( \omega t ) + a^2 \omega^2 \cos^2( \omega t ) + 4 b^2 t^2 }$
 
 $\left\| \vec v(t) \right\| = \sqrt{ a^2 \omega^2 + 4 b^2 t^2 }$
 
