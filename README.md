@@ -1,2 +1,2 @@
 # PHY
-Basic Physics I
+Python stuff
