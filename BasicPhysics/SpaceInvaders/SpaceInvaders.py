@@ -102,6 +102,7 @@ while running:
     screen.fill((0,0,0))
 
     for event in pygame.event.get():
+
         running, playerXChange, playerYChange = input(event, playerXChange, playerYChange)
 
         #Enemy "AI"
@@ -121,9 +122,10 @@ while running:
 
     #Borders
     playerX, playerY = checkBorder(playerX, playerY)
-    enemyX, enemyY = checkBorder(enemyX, enemyY)
+    enemyX, _ = checkBorder(enemyX, enemyY)
 
     player(playerX, playerY)
     enemy(enemyX, enemyY)
+
     pygame.display.update()
     ### END OF GAME LOOP ###
