@@ -53,6 +53,21 @@ enemyXChange = 0
 enemyYChange = 0
     ### END OF ENEMY ###
 
+    ### BORDER ###
+def checkBorder(objectX, objectY):
+    if objectX <= 0:
+        objectX = 0
+    elif objectX >= XAXIS - 64:
+        objectX = XAXIS - 64
+    
+    if objectY <= 0:
+        objectY = 0
+    elif objectY >= YAXIS - 64:
+        objectY = YAXIS - 64
+
+    return objectX, objectY
+    ### END OF BORDER ###
+
     ### GAME LOOP ###
 running = True
 
@@ -67,13 +82,13 @@ while running:
         #Movement Input
         if event.type == pygame.KEYDOWN: #Checks if a key has been pressed
             if event.key == pygame.K_LEFT:
-                playerXChange = -0.3
+                playerXChange = -0.5
             if event.key == pygame.K_RIGHT:
-                playerXChange = 0.3
+                playerXChange = 0.5
             if event.key == pygame.K_DOWN:
-                playerYChange = 0.3
+                playerYChange = 0.5
             if event.key == pygame.K_UP:
-                playerYChange = -0.3
+                playerYChange = -0.5
 
         if event.type == pygame.KEYUP: #Checks if a key has been released
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
@@ -97,18 +112,8 @@ while running:
     enemyY += enemyYChange
 
     #Borders
-    if playerX <= 0:
-        playerX = 0
-    elif playerX >= XAXIS-64:
-        playerX = XAXIS-64
-    if playerY <= 0:
-        playerY = 0
-    elif playerY >= YAXIS-64:
-        playerY = YAXIS-64
-    if enemyX <= 0:
-        enemyX = 0
-    elif enemyX >= XAXIS-64:
-        enemyX = XAXIS-64
+    playerX, playerY = checkBorder(playerX, playerY)
+    enemyX, enemyY = checkBorder(enemyX, enemyY)
 
     player(playerX, playerY)
     enemy(enemyX, enemyY)
