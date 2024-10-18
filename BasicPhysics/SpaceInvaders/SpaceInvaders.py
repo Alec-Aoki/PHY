@@ -68,6 +68,33 @@ def checkBorder(objectX, objectY):
     return objectX, objectY
     ### END OF BORDER ###
 
+    ### INPUT ###
+def input(event, objectX, objectY):
+    #Quit
+    run = True
+    if event.type == pygame.QUIT:
+        run = False
+
+    #Movement Input
+    if event.type == pygame.KEYDOWN: #Checks if a key has been pressed
+        if event.key == pygame.K_LEFT:
+            objectX = -0.5
+        if event.key == pygame.K_RIGHT:
+            objectX = 0.5
+        if event.key == pygame.K_DOWN:
+            objectY = 0.5
+        if event.key == pygame.K_UP:
+            objectY = -0.5
+
+    if event.type == pygame.KEYUP: #Checks if a key has been released
+        if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+            objectX = 0
+        if event.key == pygame.K_UP or pygame.key == pygame.K_DOWN:
+            objectY = 0
+
+    return run, objectX, objectY
+    ### END OF INPUT ###
+
     ### GAME LOOP ###
 running = True
 
@@ -75,26 +102,7 @@ while running:
     screen.fill((0,0,0))
 
     for event in pygame.event.get():
-        #Quit
-        if event.type == pygame.QUIT:
-            running = False
-
-        #Movement Input
-        if event.type == pygame.KEYDOWN: #Checks if a key has been pressed
-            if event.key == pygame.K_LEFT:
-                playerXChange = -0.5
-            if event.key == pygame.K_RIGHT:
-                playerXChange = 0.5
-            if event.key == pygame.K_DOWN:
-                playerYChange = 0.5
-            if event.key == pygame.K_UP:
-                playerYChange = -0.5
-
-        if event.type == pygame.KEYUP: #Checks if a key has been released
-            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                playerXChange = 0
-            if event.key == pygame.K_UP or pygame.key == pygame.K_DOWN:
-                playerYChange = 0
+        running, playerXChange, playerYChange = input(event, playerXChange, playerYChange)
 
         #Enemy "AI"
         if playerX <= enemyX:
