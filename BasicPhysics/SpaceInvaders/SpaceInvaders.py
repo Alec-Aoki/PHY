@@ -85,7 +85,7 @@ while running:
         if playerX <= enemyX:
             if enemyX < XAXIS/2 and enemyX > 0:
                 enemyXChange = 0.1
-        else:
+        elif playerX >= enemyX:
             enemyXChange = -0.1
         
         enemyYChange = 0.1
