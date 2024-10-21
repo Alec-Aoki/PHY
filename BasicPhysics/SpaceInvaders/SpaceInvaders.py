@@ -6,15 +6,13 @@ pygame.init()
     ### SCREEN ###
 XAXIS = 800
 YAXIS = 600
-#Creating screen                   X    Y
-screen = pygame.display.set_mode((XAXIS, YAXIS))
 
-#Setting background colour
-screen.fill((0,0,0)) #RGB, max = 255, 255, 255 = white
+screen = pygame.display.set_mode((XAXIS, YAXIS)) #Creating screen
+
+screen.fill((0,0,0)) #Setting background, RGB, max = 255, 255, 255 = white
 pygame.display.update()
 
-#Setting title and icon
-pygame.display.set_caption('Space Invaders')
+pygame.display.set_caption('Space Invaders') #Setting title and icon
 icon = pygame.image.load('spaceship.png')
 pygame.display.set_icon(icon)
 
@@ -22,14 +20,11 @@ DEFAULT_IMAGE_SIZE = (64,64)
     ### END OF SCREEN ###
 
     ### PLAYER ###
-#Player Image
 playerImg = pygame.image.load('player.png')
 playerImg = pygame.transform.scale(playerImg, DEFAULT_IMAGE_SIZE)
 
-#Player Function
 def player(playerX, playerY):
-    #"Drawing" the player
-    screen.blit(playerImg,(playerX, playerY))
+    screen.blit(playerImg,(playerX, playerY)) #Drawing the player
 
 playerX = XAXIS/2
 playerY = YAXIS/2 + 150
@@ -38,16 +33,29 @@ playerYChange = 0
     ### END OF PLAYER ###
 
     ### ENEMY ###
-#Enemy Image
 enemyImg = pygame.image.load('enemy.png')
 enemyImg = pygame.transform.scale(enemyImg, DEFAULT_IMAGE_SIZE)
 
-#Enemy Function
 def enemy(enemyX, enemyY):
     screen.blit(enemyImg,(enemyX, enemyY))
 
-#Randomize enemy spawn position
-enemyX = random.randint(250, XAXIS-250)
+def enemyMov(playerXmov, enemyXmov):
+    if playerXmov <= enemyXmov:
+        if enemyXmov > XAXIS-200:
+            enemyXChangemov = -0.2
+        else:
+            enemyXChangemov = 0.2
+    elif playerXmov > enemyXmov:
+        if enemyXmov < 200:
+            enemyXChangemov = 0.2
+        else:
+            enemyXChangemov = -0.2
+        
+    enemyYChangemov = 0.1
+
+    return enemyXChangemov, enemyYChangemov
+
+enemyX = random.randint(250, XAXIS-250) #Randomize enemy spawn position
 enemyY = random.randint(0, (int)(YAXIS/5))
 enemyXChange = 0
 enemyYChange = 0
@@ -70,7 +78,6 @@ def checkBorder(objectX, objectY):
 
     ### INPUT ###
 def movementInput(event, objectX, objectY):
-    #Movement Input
     if event.type == pygame.KEYDOWN: #Checks if a key has been pressed
         if event.key == pygame.K_LEFT:
             objectX = -0.5
@@ -97,38 +104,22 @@ while running:
     screen.fill((0,0,0))
 
     for event in pygame.event.get():
-        #Quit
         if event.type == pygame.QUIT:
             running = False
 
-        #Movement input
         playerXChange, playerYChange = movementInput(event, playerXChange, playerYChange)
 
-        #Enemy "AI"
-        if playerX <= enemyX:
-            if enemyX > XAXIS-200:
-                enemyXChange = -0.2
-            else:
-                enemyXChange = 0.2
-        elif playerX > enemyX:
-            if enemyX < 200:
-                enemyXChange = 0.2
-            else:
-                enemyXChange = -0.2
-        
-        enemyYChange = 0.1
+        enemyXChange, enemyYChange = enemyMov(playerX, enemyX)
 
     playerX += playerXChange
     playerY += playerYChange
-
     enemyX += enemyXChange
     enemyY += enemyYChange
 
-    #Borders
     playerX, playerY = checkBorder(playerX, playerY)
     enemyX, _ = checkBorder(enemyX, enemyY)
 
-    player(playerX, playerY)
+    player(playerX, playerY) #Update objects
     enemy(enemyX, enemyY)
 
     pygame.display.update()
