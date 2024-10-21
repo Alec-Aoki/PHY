@@ -47,8 +47,8 @@ def enemy(enemyX, enemyY):
     screen.blit(enemyImg,(enemyX, enemyY))
 
 #Randomize enemy spawn position
-enemyX = random.randint(0, XAXIS-64)
-enemyY = random.randint(0, (int)(YAXIS/4))
+enemyX = random.randint(250, XAXIS-250)
+enemyY = random.randint(0, (int)(YAXIS/5))
 enemyXChange = 0
 enemyYChange = 0
     ### END OF ENEMY ###
@@ -58,7 +58,7 @@ def checkBorder(objectX, objectY):
     if objectX <= 0:
         objectX = 0
     elif objectX >= XAXIS - 64:
-        objectX = XAXIS - 64
+        objectX = XAXIS-64
     
     if objectY <= 0:
         objectY = 0
@@ -69,12 +69,7 @@ def checkBorder(objectX, objectY):
     ### END OF BORDER ###
 
     ### INPUT ###
-def input(event, objectX, objectY):
-    #Quit
-    run = True
-    if event.type == pygame.QUIT:
-        run = False
-
+def movementInput(event, objectX, objectY):
     #Movement Input
     if event.type == pygame.KEYDOWN: #Checks if a key has been pressed
         if event.key == pygame.K_LEFT:
@@ -92,7 +87,7 @@ def input(event, objectX, objectY):
         if event.key == pygame.K_UP or pygame.key == pygame.K_DOWN:
             objectY = 0
 
-    return run, objectX, objectY
+    return objectX, objectY
     ### END OF INPUT ###
 
     ### GAME LOOP ###
@@ -102,15 +97,24 @@ while running:
     screen.fill((0,0,0))
 
     for event in pygame.event.get():
+        #Quit
+        if event.type == pygame.QUIT:
+            running = False
 
-        running, playerXChange, playerYChange = input(event, playerXChange, playerYChange)
+        #Movement input
+        playerXChange, playerYChange = movementInput(event, playerXChange, playerYChange)
 
         #Enemy "AI"
         if playerX <= enemyX:
-            if enemyX < XAXIS/2 and enemyX > 0:
-                enemyXChange = 0.1
-        elif playerX >= enemyX:
-            enemyXChange = -0.1
+            if enemyX > XAXIS-200:
+                enemyXChange = -0.2
+            else:
+                enemyXChange = 0.2
+        elif playerX > enemyX:
+            if enemyX < 200:
+                enemyXChange = 0.2
+            else:
+                enemyXChange = -0.2
         
         enemyYChange = 0.1
 
