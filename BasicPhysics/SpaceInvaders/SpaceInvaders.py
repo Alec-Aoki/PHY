@@ -126,7 +126,7 @@ def movementInput(event, objectX, objectY):
         if event.key == pygame.K_UP:
             objectY = -0.5
         if event.key == pygame.K_SPACE:
-            fireLaser(playerX, laserY)
+            fireLaser(laserX, laserY)
 
     if event.type == pygame.KEYUP: #Checks if a key has been released
         if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
@@ -155,7 +155,7 @@ while running:
         enemyXChange, enemyYChange = enemyMov(playerX, enemyX)
 
     if laserState == 'firing':
-        fireLaser(playerX, laserY)
+        fireLaser(laserX, laserY)
         laserY += laserYChange
 
     playerX += playerXChange
