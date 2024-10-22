@@ -1,8 +1,11 @@
 import random
+import math
 import pygame
+
+
+
 #Initializing pygame
 pygame.init()
-
 
 
 
@@ -36,6 +39,7 @@ playerX = XAXIS/2
 playerY = YAXIS/2 + 150
 playerXChange = 0
 playerYChange = 0
+playerScore = 0
     ### END OF PLAYER ###
 
 
@@ -51,21 +55,21 @@ def enemy(enemyX, enemyY):
 def enemyMov(playerXmov, enemyXmov):
     if playerXmov <= enemyXmov:
         if enemyXmov > XAXIS-200:
-            enemyXChangemov = -0.2
+            enemyXChangemov = -0.1
         else:
-            enemyXChangemov = 0.2
+            enemyXChangemov = 0.1
     elif playerXmov > enemyXmov:
         if enemyXmov < 200:
-            enemyXChangemov = 0.2
+            enemyXChangemov = 0.1
         else:
-            enemyXChangemov = -0.2
+            enemyXChangemov = -0.1
         
-    enemyYChangemov = 0.1
+    enemyYChangemov = 0.05
 
     return enemyXChangemov, enemyYChangemov
 
 enemyX = random.randint(250, XAXIS-250) #Randomize enemy spawn position
-enemyY = random.randint(0, (int)(YAXIS/5))
+enemyY = 16
 enemyXChange = 0
 enemyYChange = 0
     ### END OF ENEMY ###
@@ -78,13 +82,25 @@ enemyYChange = 0
 laserImg = pygame.image.load('laser.png')
 laserX = playerX
 laserY = playerY
-laserYChange = -0.5
+laserYChange = -0.75
 laserState = 'ready'
 def fireLaser(laserX, laserY):
     global laserState
     laserState = 'firing'
     screen.blit(laserImg,(laserX, laserY))
     ### END OF LASER ###
+
+
+
+
+    ### COLLISION ###
+def hasCollided(object1X, object1Y, object2X, object2Y):
+    distance = math.sqrt((math.pow(object2X - object1X, 2)) + (math.pow(object2Y - object1Y, 2)))
+    if distance < 27:
+        return True
+    else:
+        return False
+    ### END OF COLLISION ###
 
 
 
@@ -166,6 +182,14 @@ while running:
     playerX, playerY = checkBorder(playerX, playerY, 'player')
     enemyX, _ = checkBorder(enemyX, enemyY, 'enemy')
     laserX, laserY = checkBorder(laserX, laserY, 'laser')
+
+    if hasCollided(enemyX, enemyY, laserX, laserY):
+        enemyX = random.randint(250, XAXIS-250)
+        enemyY = 16
+        laserX, laserY = checkBorder(laserX, 0, 'laser')
+        laserState = 'ready'
+        playerScore += 1
+        print(playerScore)
 
     player(playerX, playerY) #Update objects
     enemy(enemyX, enemyY)
