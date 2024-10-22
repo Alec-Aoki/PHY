@@ -3,6 +3,9 @@ import pygame
 #Initializing pygame
 pygame.init()
 
+
+
+
     ### SCREEN ###
 XAXIS = 800
 YAXIS = 600
@@ -18,6 +21,7 @@ pygame.display.set_icon(icon)
 
 DEFAULT_IMAGE_SIZE = (64,64)
     ### END OF SCREEN ###
+
 
 
 
@@ -74,10 +78,11 @@ enemyYChange = 0
 laserImg = pygame.image.load('laser.png')
 laserX = playerX
 laserY = playerY
-laserYChange = 0
+laserYChange = -0.5
 laserState = 'ready'
-def fireLaser(laserX, laserY, laserState):
-    laserState = 'fire'
+def fireLaser(laserX, laserY):
+    global laserState
+    laserState = 'firing'
     screen.blit(laserImg,(laserX, laserY))
     ### END OF LASER ###
 
@@ -85,20 +90,26 @@ def fireLaser(laserX, laserY, laserState):
 
 
     ### BORDER ###
-def checkBorder(objectX, objectY):
-    if objectX <= 0:
-        objectX = 0
-    elif objectX >= XAXIS - 64:
-        objectX = XAXIS-64
-    
-    if objectY <= 0:
-        objectY = 0
-    elif objectY >= YAXIS - 64:
-        objectY = YAXIS - 64
+def checkBorder(objectX, objectY, object):
+    if object == 'player' or object == 'enemy':
+        if objectX <= 0:
+            objectX = 0
+        elif objectX >= XAXIS - 64:
+            objectX = XAXIS-64
+        
+        if objectY <= 0:
+            objectY = 0
+        elif objectY >= YAXIS - 64:
+            objectY = YAXIS - 64
+    elif object == 'laser':
+        if objectY <= 0:
+            objectX = playerX
+            objectY = playerY
+            global laserState
+            laserState = 'ready'
 
     return objectX, objectY
     ### END OF BORDER ###
-
 
 
 
@@ -114,6 +125,8 @@ def movementInput(event, objectX, objectY):
             objectY = 0.5
         if event.key == pygame.K_UP:
             objectY = -0.5
+        if event.key == pygame.K_SPACE:
+            fireLaser(playerX, laserY)
 
     if event.type == pygame.KEYUP: #Checks if a key has been released
         if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
@@ -123,7 +136,6 @@ def movementInput(event, objectX, objectY):
 
     return objectX, objectY
     ### END OF INPUT ###
-
 
 
 
@@ -142,13 +154,18 @@ while running:
 
         enemyXChange, enemyYChange = enemyMov(playerX, enemyX)
 
+    if laserState == 'firing':
+        fireLaser(playerX, laserY)
+        laserY += laserYChange
+
     playerX += playerXChange
     playerY += playerYChange
     enemyX += enemyXChange
     enemyY += enemyYChange
 
-    playerX, playerY = checkBorder(playerX, playerY)
-    enemyX, _ = checkBorder(enemyX, enemyY)
+    playerX, playerY = checkBorder(playerX, playerY, 'player')
+    enemyX, _ = checkBorder(enemyX, enemyY, 'enemy')
+    laserX, laserY = checkBorder(laserX, laserY, 'laser')
 
     player(playerX, playerY) #Update objects
     enemy(enemyX, enemyY)
