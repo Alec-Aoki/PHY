@@ -19,6 +19,8 @@ pygame.display.set_icon(icon)
 DEFAULT_IMAGE_SIZE = (64,64)
     ### END OF SCREEN ###
 
+
+
     ### PLAYER ###
 playerImg = pygame.image.load('player.png')
 playerImg = pygame.transform.scale(playerImg, DEFAULT_IMAGE_SIZE)
@@ -31,6 +33,9 @@ playerY = YAXIS/2 + 150
 playerXChange = 0
 playerYChange = 0
     ### END OF PLAYER ###
+
+
+
 
     ### ENEMY ###
 enemyImg = pygame.image.load('enemy.png')
@@ -61,6 +66,24 @@ enemyXChange = 0
 enemyYChange = 0
     ### END OF ENEMY ###
 
+
+
+
+
+    ### LASER ###
+laserImg = pygame.image.load('laser.png')
+laserX = playerX
+laserY = playerY
+laserYChange = 0
+laserState = 'ready'
+def fireLaser(laserX, laserY, laserState):
+    laserState = 'fire'
+    screen.blit(laserImg,(laserX, laserY))
+    ### END OF LASER ###
+
+
+
+
     ### BORDER ###
 def checkBorder(objectX, objectY):
     if objectX <= 0:
@@ -75,6 +98,10 @@ def checkBorder(objectX, objectY):
 
     return objectX, objectY
     ### END OF BORDER ###
+
+
+
+
 
     ### INPUT ###
 def movementInput(event, objectX, objectY):
@@ -96,6 +123,10 @@ def movementInput(event, objectX, objectY):
 
     return objectX, objectY
     ### END OF INPUT ###
+
+
+
+
 
     ### GAME LOOP ###
 running = True
