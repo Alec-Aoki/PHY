@@ -5,13 +5,13 @@ import random
 print("Condicoes iniciais aleatorias? (S/N)")
 resposta = input()
 if resposta == 'S':
-    condIniAleat = True
+    condicaoInicialAleatoria = True
 else:
-    condIniAleat = False
+    condicaoInicialAleatoria = False
 
 #Constantes
 G = 6.67430
-if condIniAleat:
+if condicaoInicialAleatoria:
     MASSA_ESTRELA = random.randint(300000, 400000)
 else:
     print("Digite a massa da estrela: ")
@@ -24,7 +24,7 @@ EIXOY = 700
 #Classe PLANETA
 class PLANETA:
     def __init__(planeta):
-        if condIniAleat:
+        if condicaoInicialAleatoria:
             planeta.massa = random.randint(1, 2)
             planeta.raio = 7.5
             #planeta.raio = pow(planeta.massa, (1.0 / 3.0))
