@@ -1,15 +1,38 @@
-import matplotlib.pyplot
+import matplotlib.pyplot as plt
 import math
 
-quantEntradas = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-tempo1 = [0.000032, 0.000051, 0.000087, 0.000259, 0.001541, 0.010502, 0.082572, 0.730486, 6.631656, 77.403269]
-#tempo = [math.factorial(3), math.factorial(4), math.factorial(5), math.factorial(6), math.factorial(7), math.factorial(8), math.factorial(9), math.factorial(10), math.factorial(11), math.factorial(12)]
-tempo2 = [0.000001, 0.000001, 0.000004, 0.000013, 0.000063, 0.000440, 0.003713, 0.035417, 0.391957, 4.284960]
+quantEntradas = [100, 1000, 10000, 100000]
+Bubble = [284, 17618, 1288670, 244596327]
+Contagem = [236, 21007, 2012917, 195759227]
+Heap = [127, 1623, 19236, 216151]
+Insertion = [106, 8696, 414341, 37076095]
+Merge = [42, 202, 1413, 13745]
+Quick = [91, 1015, 12698, 114474]
+Radix = [81, 715, 8243, 56570]
+Selection = [140, 8179, 498981, 49296037]
+Shell = [66, 989, 15074, 32719]
 
+plt.title("Tempo de Execução (Vetor Aleatório)")
+plt.xlabel("Quantidade de Elementos (n)")
+plt.ylabel("Tempo (Milisegundos)")
 
-matplotlib.pyplot.xlabel("n")
-matplotlib.pyplot.ylabel("Segundos")
-matplotlib.pyplot.plot(quantEntradas, tempo1, label='Força Bruta', color='blue')
-matplotlib.pyplot.plot(quantEntradas, tempo2, label='Otimizado', color='red')
-matplotlib.pyplot.legend()
-matplotlib.pyplot.show()
+# Plot each sorting algorithm
+plt.plot(quantEntradas, Bubble, label='Bubble Sort', color='blue', marker='o')
+plt.plot(quantEntradas, Contagem, label='Counting Sort', color='green', marker='s')
+plt.plot(quantEntradas, Heap, label='Heap Sort', color='red', marker='^')
+plt.plot(quantEntradas, Insertion, label='Insertion Sort', color='orange', marker='d')
+plt.plot(quantEntradas, Merge, label='Merge Sort', color='purple', marker='x')
+plt.plot(quantEntradas, Quick, label='Quick Sort', color='brown', marker='p')
+plt.plot(quantEntradas, Radix, label='Radix Sort', color='pink', marker='H')
+plt.plot(quantEntradas, Selection, label='Selection Sort', color='cyan', marker='*')
+plt.plot(quantEntradas, Shell, label='Shell Sort', color='magenta', marker='v')
+
+# Add a logarithmic scale for the y-axis to better view differences
+plt.yscale('log')
+
+# Display the legend in the upper left
+plt.legend(loc='upper left', bbox_to_anchor=(1, 1), title="Algoritmos")
+plt.tight_layout()
+
+# Show the plot
+plt.show()
