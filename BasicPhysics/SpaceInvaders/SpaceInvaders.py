@@ -39,7 +39,7 @@ playerX = XAXIS/2
 playerY = YAXIS/2 + 150
 playerXChange = 0
 playerYChange = 0
-playerScore = 0
+playerScore = 1
     ### END OF PLAYER ###
 
 
@@ -55,16 +55,16 @@ def enemy(enemyX, enemyY):
 def enemyMov(playerXmov, enemyXmov):
     if playerXmov <= enemyXmov:
         if enemyXmov > XAXIS-200:
-            enemyXChangemov = -0.1
+            enemyXChangemov = -0.25
         else:
-            enemyXChangemov = 0.1
+            enemyXChangemov = 0.25
     elif playerXmov > enemyXmov:
         if enemyXmov < 200:
-            enemyXChangemov = 0.1
+            enemyXChangemov = 0.25
         else:
-            enemyXChangemov = -0.1
+            enemyXChangemov = -0.25
         
-    enemyYChangemov = 0.05
+    enemyYChangemov = 0.25
 
     return enemyXChangemov, enemyYChangemov
 
@@ -82,7 +82,7 @@ enemyYChange = 0
 laserImg = pygame.image.load('laser.png')
 laserX = playerX
 laserY = playerY
-laserYChange = -0.75
+laserYChange = -1.5
 laserState = 'ready'
 def fireLaser(laserX, laserY):
     global laserState
@@ -96,7 +96,7 @@ def fireLaser(laserX, laserY):
     ### COLLISION ###
 def hasCollided(object1X, object1Y, object2X, object2Y):
     distance = math.sqrt((math.pow(object2X - object1X, 2)) + (math.pow(object2Y - object1Y, 2)))
-    if distance < 27:
+    if distance < 30:
         return True
     else:
         return False
@@ -113,11 +113,22 @@ def checkBorder(objectX, objectY, object):
         elif objectX >= XAXIS - 64:
             objectX = XAXIS-64
         
+    if object == 'player':
         if objectY <= 0:
             objectY = 0
         elif objectY >= YAXIS - 64:
             objectY = YAXIS - 64
-    elif object == 'laser':
+
+    if object == 'enemy':
+        if objectY >= YAXIS:
+            objectX = random.randint(250, XAXIS-250)
+            objectY = 16
+            global playerScore
+            playerScore -= 1
+            print(playerScore - 1)
+
+
+    if object == 'laser':
         if objectY <= 0:
             objectX = playerX
             objectY = playerY
@@ -134,13 +145,13 @@ def checkBorder(objectX, objectY, object):
 def movementInput(event, objectX, objectY):
     if event.type == pygame.KEYDOWN: #Checks if a key has been pressed
         if event.key == pygame.K_LEFT:
-            objectX = -0.5
+            objectX = -0.75
         if event.key == pygame.K_RIGHT:
-            objectX = 0.5
+            objectX = 0.75
         if event.key == pygame.K_DOWN:
-            objectY = 0.5
+            objectY = 0.75
         if event.key == pygame.K_UP:
-            objectY = -0.5
+            objectY = -0.75
         if event.key == pygame.K_SPACE:
             fireLaser(laserX, laserY)
 
@@ -162,6 +173,13 @@ running = True
 while running:
     screen.fill((0,0,0))
 
+    if playerScore == 0:
+        print('Você perdeu!')
+        running = False
+
+    if laserState == 'ready':
+        laserX = playerX
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -180,7 +198,7 @@ while running:
     enemyY += enemyYChange
 
     playerX, playerY = checkBorder(playerX, playerY, 'player')
-    enemyX, _ = checkBorder(enemyX, enemyY, 'enemy')
+    enemyX, enemyY = checkBorder(enemyX, enemyY, 'enemy')
     laserX, laserY = checkBorder(laserX, laserY, 'laser')
 
     if hasCollided(enemyX, enemyY, laserX, laserY):
@@ -189,7 +207,7 @@ while running:
         laserX, laserY = checkBorder(laserX, 0, 'laser')
         laserState = 'ready'
         playerScore += 1
-        print(playerScore)
+        print(playerScore - 1)
 
     player(playerX, playerY) #Update objects
     enemy(enemyX, enemyY)
